@@ -31,7 +31,6 @@
         </field>
     </record>
 
-
     <record id="action_log_record" model="ir.actions.act_window">
         <field name="name">Log Records</field>
         <field name="res_model">log.record</field>
