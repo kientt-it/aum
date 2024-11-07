@@ -13,7 +13,7 @@
         'web_enterprise',
     ],
     'data': [
-        'views/views.xml',
+        'views/log_record_views.xml',
     ],
     'assets': {
         'web.assets_backend': [

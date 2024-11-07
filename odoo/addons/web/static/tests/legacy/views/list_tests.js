@@ -2448,7 +2448,7 @@ QUnit.module('LegacyViews', {
                 return this._super.apply(this, arguments).then(result => {
                     // On PY-side, a read_group won't provide any aggregate value
                     // if the field does not have a `group_operator` attribute.
-                    // (see 5691b126f06/odoo/models.py#L2521-L2528)
+                    // (see 5691b126f06/odoo/log_record.py#L2521-L2528)
                     // Here, since `qux` does not have such an attribute, we
                     // remove the value provided by `_mockReadGroup`
                     _.each(result.groups, function(group) {

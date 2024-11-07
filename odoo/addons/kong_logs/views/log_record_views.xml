@@ -1,0 +1,43 @@
+
+<odoo>
+    <record id="view_log_record_tree" model="ir.ui.view">
+        <field name="name">log record tree</field>
+        <field name="model">log.record</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="timestamp"/>
+                <field name="status_code"/>
+                <field name="endpoint"/>
+                <field name="method"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_log_record_form" model="ir.ui.view">
+        <field name="name">log record form</field>
+        <field name="model">log.record</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="timestamp"/>
+                        <field name="status_code"/>
+                        <field name="endpoint"/>
+                        <field name="method"/>
+                        <field name="log_content"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_log_record" model="ir.actions.act_window">
+        <field name="name">Log Records</field>
+        <field name="res_model">log.record</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_kong_logs" name="Kong Logs" parent="fastapi.fastapi_endpoint_menu" sequence="20" groups="base.group_user"/>
+    <menuitem id="menu_log_record" name="Log Records" parent="menu_kong_logs" action="action_log_record" groups="base.group_user"/>
+</odoo>

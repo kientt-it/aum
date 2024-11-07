@@ -74,7 +74,7 @@ export const FIELD_TYPE_TABLE = {
  *   Represents a specific date/time range for a specific model, field and granularity.
  *
  * It is used to add new domain and context constraints related to a specific date/time
- * field, in order to configure the _read_group_fill_temporal (see core models.py)
+ * field, in order to configure the _read_group_fill_temporal (see core log_record.py)
  * method. It will be used when we want to get continuous groups in chronological
  * order in a specific date/time range.
  */

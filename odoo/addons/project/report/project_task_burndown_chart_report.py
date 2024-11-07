@@ -304,10 +304,10 @@ class ReportProjectTaskBurndownChart(models.AbstractModel):
     @api.model
     def _read_group_raw(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
         """ Although not being a good practice, this code is, for a big part, duplicated from `read_group_raw` from
-        `models.py`. In order to be able to use the report on big databases, it is necessary to inject `WHERE`
+        `log_record.py`. In order to be able to use the report on big databases, it is necessary to inject `WHERE`
         statements at the lowest levels in the report `SQL`. As a result, using a view was no more an option as
         `Postgres` could not optimise the `SQL`.
-        The code of `fill_temporal` has been removed from what's available in `models.py` as it is not relevant in the
+        The code of `fill_temporal` has been removed from what's available in `log_record.py` as it is not relevant in the
         context of the Burndown Chart. Indeed, series are generated so no empty are returned by the `SQL`, except if
         explicitly specified in the domain through the `date` field, which is then expected.
         """
@@ -317,7 +317,7 @@ class ReportProjectTaskBurndownChart(models.AbstractModel):
         self._validate_group_by(groupby)
         burndown_specific_domain, task_specific_domain = self._determine_domains(domain)
 
-        # --- Below code is from models.py read_group_raw
+        # --- Below code is from log_record.py read_group_raw
 
         self.check_access_rights('read')
         query = self._where_calc(burndown_specific_domain)
@@ -400,7 +400,7 @@ class ReportProjectTaskBurndownChart(models.AbstractModel):
         # self._flush_search(domain, fields=fnames + groupby_fields)
         self.env['project.task']._flush_search(task_specific_domain, fields=self.task_specific_fields)
 
-        # --- Below code is from models.py read_group_raw
+        # --- Below code is from log_record.py read_group_raw
 
         groupby_terms, orderby_terms = self._read_group_prepare(order, aggregated_fields, annotated_groupbys, query)
         from_clause, where_clause, where_clause_params = query.get_sql()
@@ -419,7 +419,7 @@ class ReportProjectTaskBurndownChart(models.AbstractModel):
                                        where_clause_params, groupby_terms, orderby_terms, limit, offset, groupby,
                                        annotated_groupbys, prefix_term, prefix_terms)
 
-        # --- Below code is from models.py read_group_raw
+        # --- Below code is from log_record.py read_group_raw
 
         self._cr.execute(query, where_clause_params)
         fetched_data = self._cr.dictfetchall()
@@ -436,7 +436,7 @@ class ReportProjectTaskBurndownChart(models.AbstractModel):
         # --- Below code is custom
         # --- We removed fill_temporal handling as not relevant in the context of the Burndown Chart
 
-        # --- Below code is from models.py read_group_raw
+        # --- Below code is from log_record.py read_group_raw
 
         if lazy:
             # Right now, read_group only fill results in lazy mode (by default).
