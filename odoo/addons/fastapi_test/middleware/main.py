@@ -1,5 +1,7 @@
 import uuid
 import logging
+
+import httpx
 from fastapi import Request
 from datetime import datetime
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -98,7 +100,17 @@ class LogMiddleware(BaseHTTPMiddleware):
         }
         logger.info(log_data)
 
-        print(log_data)
+        # Gửi log_data đến Odoo
+        try:
+            async with httpx.AsyncClient() as client:
+                await client.post(
+                    "http://localhost:8069/api/logs",
+                    json=log_data,
+                    headers={"Content-Type": "application/json"}
+                )
+        except Exception as e:
+            logger.error(f"Failed to send log to Odoo: {e}")
+
         # Trả lại response đã tạo hoặc đã chỉnh sửa
         return Response(
             content=response_content,

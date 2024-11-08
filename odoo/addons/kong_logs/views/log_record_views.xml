@@ -1,14 +1,16 @@
 
 <odoo>
+
     <record id="view_log_record_tree" model="ir.ui.view">
         <field name="name">log record tree</field>
         <field name="model">log.record</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="timestamp"/>
-                <field name="status_code"/>
-                <field name="endpoint"/>
+                <field name="received_at"/>
                 <field name="method"/>
+                <field name="endpoint"/>
+                <field name="status_code"/>
+                <field name="error_message"/>
             </tree>
         </field>
     </record>
@@ -20,10 +22,11 @@
             <form>
                 <sheet>
                     <group>
-                        <field name="timestamp"/>
-                        <field name="status_code"/>
-                        <field name="endpoint"/>
+                        <field name="received_at"/>
                         <field name="method"/>
+                        <field name="endpoint"/>
+                        <field name="status_code"/>
+                        <field name="error_message"/>
                         <field name="log_content"/>
                     </group>
                 </sheet>
@@ -37,6 +40,4 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_kong_logs" name="Kong Logs" parent="fastapi.fastapi_endpoint_menu" sequence="20" groups="base.group_user"/>
-    <menuitem id="menu_log_record" name="Log Records" parent="menu_kong_logs" action="action_log_record" groups="base.group_user"/>
 </odoo>

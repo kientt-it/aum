@@ -1,0 +1,7 @@
+<odoo>
+
+    <menuitem id="menu_kong_logs" parent="fastapi.menu_fastapi_root" sequence="20" name="Logs"/>
+    <menuitem id="menu_log_record" name="Log Records" parent="menu_kong_logs" action="action_log_record"/>
+
+</odoo>
+
