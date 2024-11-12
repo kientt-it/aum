@@ -13,22 +13,16 @@ from odoo.tools.safe_eval import json
 import logging
 import os
 
-# Đường dẫn tuyệt đối đến file log
+# Ghi log vào file
 log_file_path = os.path.join(os.path.dirname(__file__), "G:/Github/AUM/api_logs.log")
-
-# Tạo logger
 logger = logging.getLogger("api_logger")
-logger.setLevel(logging.INFO)  # Đặt mức độ log là INFO
+logger.setLevel(logging.INFO)
 
-# Tạo handler để ghi log vào file
 file_handler = logging.FileHandler(log_file_path)
 file_handler.setLevel(logging.INFO)
-
-# Định dạng log
 formatter = logging.Formatter("%(asctime)s - %(message)s")
 file_handler.setFormatter(formatter)
 
-# Thêm handler vào logger
 logger.addHandler(file_handler)
 
 class LogMiddleware(BaseHTTPMiddleware):
@@ -39,9 +33,7 @@ class LogMiddleware(BaseHTTPMiddleware):
         request_data = {
             "method": request.method,
             "endpoint": request.url.path,
-            # "url": str(request.url),
-            # "headers": dict(request.headers),
-            # "query_params": dict(request.query_params),
+            "url": str(request.url),
             "path_params": request.path_params,
             "cookies": request.cookies
         }
@@ -93,7 +85,6 @@ class LogMiddleware(BaseHTTPMiddleware):
 
         # Ghi lại thông tin log bao gồm cả lỗi
         log_data = {
-            # "timestamp": start_time.isoformat(),
             "process_time": process_time,
             "request": request_data,
             "response": response_data,
