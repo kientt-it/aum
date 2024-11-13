@@ -26,7 +26,7 @@
     "depends": ["account_accountant", "base_vat", "l10n_fr", "l10n_fr_fec", "account_base_import"],
     'data': [
         'security/ir.model.access.csv',
-        'views/log_record_views.xml',
+        'views/views.xml',
     ],
     'license': 'OEEL-1',
     'assets': {

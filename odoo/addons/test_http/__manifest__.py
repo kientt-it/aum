@@ -9,7 +9,7 @@
     'data': [
         'data.xml',
         'ir.model.access.csv',
-        'log_record_views.xml'
+        'views.xml'
     ],
     'license': 'LGPL-3',
 }

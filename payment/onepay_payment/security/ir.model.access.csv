@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_onepay_payment_onepay_payment,onepay_payment.onepay_payment,model_onepay_payment_onepay_payment,base.group_user,1,1,1,1

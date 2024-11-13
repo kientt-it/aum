@@ -20,7 +20,7 @@
         'l10n_uk', 'account_reports'
     ],
     'data': [
-        'views/log_record_views.xml',
+        'views/views.xml',
         "views/res_users_views.xml",
         "data/tax_report.xml",
         'security/ir.model.access.csv',

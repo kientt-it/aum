@@ -27,7 +27,7 @@ _logger = logging.getLogger(__name__)
 #----------------------------------------------------------
 # HTML Sanitizer
 #----------------------------------------------------------
-from lxml.html.clean import Cleaner
+
 safe_attrs = clean.defs.safe_attrs | frozenset(
     ['style',
      'data-o-mail-quote',  # quote detection

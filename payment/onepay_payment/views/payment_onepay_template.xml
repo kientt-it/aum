@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--  Xác định mẫu mới với id "redirect_form" -->
+  <template id="redirect_form">
+    <!-- Tạo trường nhập ẩn để giữ giá trị của api_url -->
+    <!-- Giá trị của đầu vào được đặt động thành giá trị của "api_url" -->
+    <form t-att-action="api_url" method ="POST"/>
+  </template>
+</odoo>
