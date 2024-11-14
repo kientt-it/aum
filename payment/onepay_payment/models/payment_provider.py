@@ -13,11 +13,13 @@ class PaymentProviderOnePay(models.Model):
     _inherit = "payment.provider"
 
     # Add 'OnePay' as a new payment provider
+    # Thêm 'OnePay' vào phương thức thanh toán
     code = fields.Selection(
         selection_add=[("onepay", "OnePay")], ondelete={"onepay": "set default"}
     )
 
     # Define fields for OnePay's Merchant ID, Access Code, and Secret Key
+    # Định nghĩa các trường của onepay: Merchant ID, Access Code, and Secret Key
     onepay_merchant_id = fields.Char(
         string="Merchant ID", default="ONEPAY", required_if_provider="onepay"
     )
