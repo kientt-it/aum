@@ -4,7 +4,7 @@ import hmac
 import hashlib
 import urllib.parse
 from odoo import _, api, fields, models
-from odoo.addons.payment import const
+from odoo.addons.onepay_payment import const
 
 _logger = logging.getLogger(__name__)
 
@@ -19,13 +19,13 @@ class PaymentProviderOnePay(models.Model):
 
     # Define fields for OnePay's Merchant ID, Access Code, and Secret Key
     onepay_merchant_id = fields.Char(
-        string="Merchant ID", default="TESTONEPAY", required_if_provider="onepay"
+        string="Merchant ID", default="ONEPAY", required_if_provider="onepay"
     )
     onepay_access_code = fields.Char(
-        string="Access Code", default="6BEB2546", required_if_provider="onepay"
+        string="Access Code", default="D67341C2", required_if_provider="onepay"
     )
     onepay_secret_key = fields.Char(
-        string="Secret Key", default="6D0870CDE5F24F34F3915FB0045120DB", required_if_provider="onepay"
+        string="Secret Key", default="A3EFDFABA8653DF2342E8DAC29B51AF0", required_if_provider="onepay"
     )
 
     @api.model

@@ -13,6 +13,7 @@ from werkzeug.exceptions import Forbidden
 from odoo import _, http
 from odoo.exceptions import ValidationError
 from odoo.http import request
+from odoo.addons.onepay_payment.models.payment_provider import PaymentProviderOnePay
 
 _logger = logging.getLogger(__name__)
 
@@ -87,7 +88,6 @@ class OnePayController(http.Controller):
 
         merchant_hash_code = tx_sudo.provider_id.onepay_secret_key
 
-        from payment.onepay_payment.models.payment_provider import PaymentProviderOnePay
         sorted_data = PaymentProviderOnePay.sort_param(data)
         signing_string = PaymentProviderOnePay.generate_string_to_hash(sorted_data)
 
