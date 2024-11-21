@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <template id="payment_error_template" name="Payment Error">
+            <t t-call="website.layout">
+                <div class="container">
+                    <h2>Thông báo Giao dịch</h2>
+                    <p t-esc="error_message" style="color:red;"></p>
+                    <a href="/" class="btn btn-primary">Quay lại trang chủ</a>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>
+

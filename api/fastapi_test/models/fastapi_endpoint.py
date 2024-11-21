@@ -1,7 +1,7 @@
 from fastapi import BackgroundTasks
 
 from odoo import models, fields
-from odoo.addons.fastapi_test.middleware.main import LogMiddleware
+# from odoo.addons.fastapi_test.middleware.main import LogMiddleware
 from typing import Any, Callable, Dict, List, Tuple
 
 from starlette.middleware import Middleware

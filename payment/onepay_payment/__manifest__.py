@@ -9,6 +9,7 @@
     'depends': ['base','payment'],
     'data': [
         'views/payment_onepay_template.xml',
+        'views/payment_error_template.xml',
         'views/payment_onepay_view.xml',
         'data/ir_cron.xml',
         'data/payment_provider_data.xml',

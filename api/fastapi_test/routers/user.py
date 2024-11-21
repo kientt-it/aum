@@ -1,9 +1,11 @@
+import asyncio
 import logging
 import uuid
 from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks, Request
 from odoo.api import Environment
 from odoo.addons.fastapi.dependencies import odoo_env
 from ..schemas.user import UserCreate, UserResponse
+import requests
 from typing import List
 from datetime import datetime
 import httpx
@@ -13,6 +15,7 @@ logger = logging.getLogger("api_logger")
 
 # Hàm gửi log tới Odoo
 async def send_log_to_odoo(log_data):
+    logger.info(f"Preparing to send log: {log_data}")
     async with httpx.AsyncClient() as client:
         try:
             response = await client.post(
@@ -46,8 +49,9 @@ async def create_user(
         "body": user_data.model_dump()
     }
 
-    # Khởi tạo response_data rỗng để ghi log
-    response_data = {}
+    response_data = {}  # Dữ liệu response mặc định để ghi log
+    log_data = {}  # Biến log data toàn cục
+
     try:
         # Kiểm tra nếu tên đăng nhập đã tồn tại
         existing_user = env['res.users'].sudo().search([('login', '=', user_data.login)], limit=1)
@@ -56,15 +60,14 @@ async def create_user(
                 "status_code": 400,
                 "error": "Login already exists"
             }
-            # Thêm log lỗi vào background tasks ngay khi lỗi xảy ra
             log_data = {
                 "request": request_data,
                 "response": response_data,
                 "process_time": (datetime.now() - start_time).total_seconds()
             }
-            await send_log_to_odoo(log_data)
-            background_tasks.add_task(send_log_to_odoo, log_data)
-
+            # Gửi log ngay lập tức khi lỗi xảy ra
+            # await send_log_to_odoo(log_data)
+            # background_tasks.add_task(send_log_to_odoo, log_data)
             raise HTTPException(status_code=400, detail="Login already exists")
 
         # Tạo người dùng mới nếu không có lỗi
@@ -84,9 +87,19 @@ async def create_user(
                 "name": user.name
             }
         }
+        log_data = {
+            "request": request_data,
+            "response": response_data,
+            "process_time": (datetime.now() - start_time).total_seconds()
+        }
+
+        # Thêm log vào background tasks
+        await send_log_to_odoo(log_data)
+        # background_tasks.add_task(send_log_to_odoo, log_data)
         return response_data["data"]
 
     except HTTPException as http_exc:
+        # Ghi log cho lỗi HTTP
         response_data = {
             "status_code": http_exc.status_code,
             "error": http_exc.detail
@@ -97,10 +110,11 @@ async def create_user(
             "process_time": (datetime.now() - start_time).total_seconds()
         }
         await send_log_to_odoo(log_data)
-        background_tasks.add_task(send_log_to_odoo, log_data)
+        # background_tasks.add_task(send_log_to_odoo, log_data)
         raise http_exc
 
     except Exception as e:
+        # Ghi log cho lỗi không mong đợi
         response_data = {
             "status_code": 500,
             "error": "Internal Server Error",
@@ -112,15 +126,16 @@ async def create_user(
             "process_time": (datetime.now() - start_time).total_seconds()
         }
         await send_log_to_odoo(log_data)
-        background_tasks.add_task(send_log_to_odoo, log_data)
+        # background_tasks.add_task(send_log_to_odoo, log_data)
         raise HTTPException(status_code=500, detail="Internal Server Error")
 
     finally:
-        if response_data.get("status_code") == 200:
-            process_time = (datetime.now() - start_time).total_seconds()
+        # Đảm bảo log được ghi bất kể thành công hay thất bại
+        if not log_data:  # Nếu log_data chưa được thiết lập trong các khối trên
             log_data = {
                 "request": request_data,
                 "response": response_data,
-                "process_time": process_time
+                "process_time": (datetime.now() - start_time).total_seconds()
             }
-            background_tasks.add_task(send_log_to_odoo, log_data)
+
+        background_tasks.add_task(send_log_to_odoo, log_data)

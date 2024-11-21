@@ -23,3 +23,5 @@ class KongLogController(http.Controller):
         })
 
         return {"status": "Log received"}
+
+
